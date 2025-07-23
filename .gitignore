@@ -1,0 +1,30 @@
+# Hosting
+.vercel
+
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+\*\*/.DS_Store
+Thumbs.db
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Build and cache files
+dist/
+build/
+.cache/
+
+# Optional: Cloudinary uploads
+uploads/
+cloudinary/
