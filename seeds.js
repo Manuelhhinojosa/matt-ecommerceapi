@@ -3,17 +3,19 @@ require("dotenv").config();
 require("./config/database");
 
 const postTest = new Post({
-  reference: "refTest2",
+  reference: "refTest1",
   inStock: true,
   added: false,
   recentWork: true,
   title: "testTitle",
   shortDesc: "shortDescTest",
-  largeDesc: "largeDescTest",
-  imgSrcHref: "imgSrcHrefTest",
-  imgFileName: "imgFileNameTest",
-  imgMimetype: "imgMimetypeTest",
-  fileOriginalName: "fileOriginalNameTest",
+  largeDesc: "this is the large description test text",
+  media: {
+    url: "mediaURL",
+    filename: "filename",
+    mimetype: "mimetype",
+    fileOriginalName: "originalnamemedia",
+  },
   cost: 1,
   nationwideDelivery: 1,
   internationalDelivery: 1,

@@ -28,23 +28,13 @@ const postSchema = new mongoose.Schema(
     },
     largeDesc: {
       type: String,
-      required: false,
-    },
-    imgSrcHref: {
-      type: String,
       required: true,
     },
-    imgFileName: {
-      type: String,
-      required: true,
-    },
-    imgMimetype: {
-      type: String,
-      required: true,
-    },
-    fileOriginalName: {
-      type: String,
-      required: true,
+    media: {
+      url: String,
+      filename: String,
+      mimetype: String,
+      fileOriginalName: String,
     },
     cost: {
       type: Number,

@@ -40,26 +40,25 @@ const onePost = async (req, res) => {
 };
 // Crate post (new product)
 const createPost = async (req, res) => {
+  const data = req.body;
   const newPost = await new Post({
-    reference: "refTest3",
-    inStock: true,
-    added: false,
-    recentWork: true,
-    title: "testTitle",
-    shortDesc: "shortDescTest",
-    largeDesc: "largeDescTest",
-    imgSrcHref: "imgSrcHrefTest",
-    imgFileName: "imgFileNameTest",
-    imgMimetype: "imgMimetypeTest",
-    fileOriginalName: "fileOriginalNameTest",
-    cost: 1,
-    nationwideDelivery: 1,
-    internationalDelivery: 1,
+    reference: data.reference,
+    inStock: data.inStock,
+    added: data.added,
+    recentWork: data.recentWork,
+    title: data.title,
+    shortDesc: data.shortDesc,
+    largeDesc: data.largeDesc,
+    media: {
+      url: req.file.path,
+      filename: req.file.filename,
+      mimetype: req.file.mimetype,
+      fileOriginalName: req.file.originalname,
+    },
+    cost: data.cost,
+    nationwideDelivery: data.nationwideDelivery,
+    internationalDelivery: data.internationalDelivery,
   });
-
-  // reference
-  // added
-  // largeDesc
 
   newPost
     .save()

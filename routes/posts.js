@@ -2,11 +2,13 @@ var express = require("express");
 var router = express.Router();
 const postsController = require("../controllers/posts");
 
-// posts routes : /posts/
+// middleware
+const upload = require("../middleware/multer");
+
+// posts routes : /posts
 router.get("/", postsController.posts);
 router.get("/allposts", postsController.allPosts);
+router.post("/create", upload.single("media"), postsController.createPost);
 router.get("/:id", postsController.onePost);
-// change to get.post once form is completed
-router.get("/create", postsController.createPost);
 
 module.exports = router;
