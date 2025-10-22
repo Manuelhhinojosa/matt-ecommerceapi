@@ -103,10 +103,14 @@ const deletePost = async (req, res) => {
   }
 };
 
+// edit post
+const editPost = (req, res) => {};
+
 module.exports = {
   posts,
   allPosts,
   onePost,
   createPost,
   deletePost,
+  editPost,
 };
