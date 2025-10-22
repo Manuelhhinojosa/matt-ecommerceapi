@@ -95,7 +95,7 @@ const deletePost = async (req, res) => {
 
     // Delete the post from MongoDB
     const deletedPost = await Post.findByIdAndDelete(id);
-
+    console.log(deletedPost);
     res.status(200).json(deletedPost);
   } catch (error) {
     console.error("Error deleting post:", error);
@@ -103,8 +103,35 @@ const deletePost = async (req, res) => {
   }
 };
 
-// edit post
-const editPost = (req, res) => {};
+// edit post from mongoDB
+const editPost = async (req, res) => {
+  const data = req.body;
+  const id = data._id;
+
+  await Post.findOneAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        inStock: data.inStock,
+        recentWork: data.recentWork,
+        title: data.title,
+        shortDesc: data.shortDesc,
+        cost: data.cost,
+        nationwideDelivery: data.nationwideDelivery,
+        internationalDelivery: data.internationalDelivery,
+      },
+    }
+  )
+    .then((result) => {
+      const editedPost = result;
+      console.log("result:", editedPost);
+      res.status(200).json(editedPost);
+    })
+    .catch((error) => {
+      console.error("Error editing post:", error);
+      res.status(500).json({ message: "Error editing post" });
+    });
+};
 
 module.exports = {
   posts,
