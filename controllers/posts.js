@@ -1,5 +1,7 @@
 // models
 const Post = require("../models/post");
+// Cloudinary
+const cloudinary = require("cloudinary").v2;
 
 const posts = async (req, res) => {
   try {
@@ -72,9 +74,39 @@ const createPost = async (req, res) => {
     });
 };
 
+// delete one post by ID
+const deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const postToDelete = await Post.findById(id);
+    if (!postToDelete) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Safely remove the file from Cloudinary
+    if (postToDelete.media.filename) {
+      try {
+        await cloudinary.uploader.destroy(postToDelete.media.filename);
+      } catch (cloudError) {
+        console.error("Cloudinary deletion failed:", cloudError);
+      }
+    }
+
+    // Delete the post from MongoDB
+    const deletedPost = await Post.findByIdAndDelete(id);
+
+    res.status(200).json(deletedPost);
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    res.status(500).json({ message: "Error deleting post" });
+  }
+};
+
 module.exports = {
   posts,
   allPosts,
   onePost,
   createPost,
+  deletePost,
 };

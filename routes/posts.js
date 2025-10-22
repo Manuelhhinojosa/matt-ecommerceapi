@@ -8,7 +8,8 @@ const upload = require("../middleware/multer");
 // posts routes : /posts
 router.get("/", postsController.posts);
 router.get("/allposts", postsController.allPosts);
-router.post("/create", upload.single("media"), postsController.createPost);
 router.get("/:id", postsController.onePost);
+router.post("/create", upload.single("media"), postsController.createPost);
+router.delete("/:id", postsController.deletePost);
 
 module.exports = router;
