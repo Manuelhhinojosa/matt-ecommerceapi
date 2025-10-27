@@ -5,7 +5,7 @@ const cloudinary = require("cloudinary").v2;
 
 const posts = async (req, res) => {
   try {
-    res.send("Matt Marotti's E-commerce API (Back End)");
+    res.send("Matt Marotti's E-commerce API (Back End) posts route");
   } catch {
     (error) => {
       console.log("Error connecting to the database:", error);
@@ -40,6 +40,7 @@ const onePost = async (req, res) => {
       res.status(500).json({ message: "Error fetching post" });
     });
 };
+
 // Crate post (new product)
 const createPost = async (req, res) => {
   const data = req.body;

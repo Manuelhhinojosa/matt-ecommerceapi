@@ -1,9 +1,21 @@
-var express = require('express');
+// dependencies
+var express = require("express");
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+// controllers (functinos)
+const usersController = require("../controllers/users");
+
+// middleware functions
+const { protect, admin } = require("../middleware/authMiddleware");
+
+// Users routes: /users
+router.get("/", usersController.users);
+router.post("/register", usersController.registerUser);
+router.post("/login", usersController.userLogin);
+router.get("/allusers", protect, admin, usersController.getAllUsers);
+router.get("/:id", protect, admin, usersController.getOneUser);
+// edit
+// delete
+router.delete("/:id", protect, admin, usersController.deleteUser);
 
 module.exports = router;
