@@ -14,8 +14,6 @@ router.post("/register", usersController.registerUser);
 router.post("/login", usersController.userLogin);
 router.get("/allusers", protect, admin, usersController.getAllUsers);
 router.get("/:id", protect, admin, usersController.getOneUser);
-// edit
-// delete
 router.delete("/:id", protect, admin, usersController.deleteUser);
-
+router.put("/:id", protect, admin, usersController.editUser);
 module.exports = router;

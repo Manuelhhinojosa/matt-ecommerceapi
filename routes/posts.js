@@ -5,7 +5,10 @@ var router = express.Router();
 const postsController = require("../controllers/posts");
 
 // middleware
+// cloudinary
 const upload = require("../middleware/multer");
+// for protected routes
+const { protect, admin } = require("../middleware/authMiddleware");
 
 // posts routes : /posts
 router.get("/", postsController.posts);

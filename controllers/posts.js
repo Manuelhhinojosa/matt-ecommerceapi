@@ -5,7 +5,7 @@ const cloudinary = require("cloudinary").v2;
 
 const posts = async (req, res) => {
   try {
-    res.send("Matt Marotti's E-commerce API (Back End) posts route");
+    res.send("Matt Marotti's E-commerce API (Back End) posts routes");
   } catch {
     (error) => {
       console.log("Error connecting to the database:", error);

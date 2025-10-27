@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 // welcome
 const users = async (req, res) => {
   try {
-    res.send("Matt Marotti's E-commerce API (Back End) users route");
+    res.send("Matt Marotti's E-commerce API (Back End) users routes");
   } catch {
     (error) => {
       console.log("Error connecting to the database:", error);
@@ -178,6 +178,44 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// edit user
+const editUser = async (req, res) => {
+  const data = req.body;
+  const id = data._id;
+
+  await User.findOneAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        contactPhoneNumber: data.contactPhoneNumber,
+        contactAddress: data.contactAddress,
+        contactUnit: data.contactUnit,
+        contactCountry: data.contactCountry,
+        contactProvinceOrState: data.contactProvinceOrState,
+        contactCity: data.contactCity,
+        contactPostalCode: data.contactPostalCode,
+        shippingSameAsContactInfo: data.shippingSameAsContactInfo,
+        shippingPhoneNumber: data.shippingPhoneNumber,
+        shippingAddress: data.shippingAddress,
+        shippingUnit: data.shippingUnit,
+        shippingCountry: data.shippingCountry,
+        shippingProvinceOrState: data.shippingProvinceOrState,
+        shippingCity: data.shippingCity,
+        shippingPostalCode: data.shippingPostalCode,
+      },
+    }
+  )
+    .then((result) => {
+      const editedUser = result;
+      console.log("result:", editedUser);
+      res.status(200).json(editedUser);
+    })
+    .catch((error) => {
+      console.error("Error editing post:", error);
+      res.status(500).json({ message: "Error editing post" });
+    });
+};
+
 module.exports = {
   users,
   registerUser,
@@ -185,4 +223,5 @@ module.exports = {
   getAllUsers,
   getOneUser,
   deleteUser,
+  editUser,
 };
