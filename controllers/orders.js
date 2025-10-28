@@ -64,8 +64,32 @@ const createOrder = async (req, res) => {
     });
 };
 
+const updateOrderStatus = async (req, res) => {
+  const data = req.body;
+  const id = data._id;
+
+  await Order.findOneAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        status: data.status,
+      },
+    }
+  )
+    .then((result) => {
+      const editedOrder = result;
+      console.log("result:", editedOrder);
+      res.status(200).json(editedOrder);
+    })
+    .catch((error) => {
+      console.error("Error editing order status:", error);
+      res.status(500).json({ message: "Error editing order status" });
+    });
+};
+
 module.exports = {
   orders,
   allOrders,
   createOrder,
+  updateOrderStatus,
 };

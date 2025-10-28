@@ -11,4 +11,10 @@ const { protect, admin } = require("../middleware/authMiddleware");
 router.get("/", ordersController.orders);
 router.get("/allorders", protect, admin, ordersController.allOrders);
 router.post("/create", protect, ordersController.createOrder);
+router.patch(
+  "/editorderstatus",
+  protect,
+  admin,
+  ordersController.updateOrderStatus
+);
 module.exports = router;
