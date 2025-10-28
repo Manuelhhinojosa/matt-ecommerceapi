@@ -163,7 +163,8 @@ const getOneUser = async (req, res) => {
 // delete one User
 const deleteUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    const data = req.body;
+    const id = data._id;
 
     const userToDelete = await User.findById(id);
     if (!userToDelete) {
@@ -219,6 +220,52 @@ const editUser = async (req, res) => {
     });
 };
 
+// inactivate user
+const inactivateUser = async (req, res) => {
+  const data = req.body;
+  const id = data._id;
+  await User.findOneAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        isActive: false,
+      },
+    }
+  )
+    .then((result) => {
+      const inactivatedUser = result;
+      console.log("result:", inactivatedUser);
+      res.status(200).json(inactivatedUser);
+    })
+    .catch((error) => {
+      console.error("Error inactivating user:", error);
+      res.status(500).json({ message: "Error inactivating user" });
+    });
+};
+
+// reactivate user
+const reactivateUser = async (req, res) => {
+  const data = req.body;
+  const id = data._id;
+  await User.findOneAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        isActive: true,
+      },
+    }
+  )
+    .then((result) => {
+      const reactivatedUser = result;
+      console.log("result:", reactivatedUser);
+      res.status(200).json(reactivatedUser);
+    })
+    .catch((error) => {
+      console.error("Error reactivating user:", error);
+      res.status(500).json({ message: "Error reactivating user" });
+    });
+};
+
 module.exports = {
   users,
   registerUser,
@@ -227,4 +274,6 @@ module.exports = {
   getOneUser,
   deleteUser,
   editUser,
+  inactivateUser,
+  reactivateUser,
 };
