@@ -41,7 +41,7 @@ const onePost = async (req, res) => {
     });
 };
 
-// Crate post (new product)
+// Create post (new product)
 const createPost = async (req, res) => {
   const data = req.body;
   const newPost = await new Post({

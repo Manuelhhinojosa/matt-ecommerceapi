@@ -1,5 +1,6 @@
 // models
 const Order = require("../models/order");
+const Post = require("../models/post");
 
 // welcome
 const orders = (req, res) => {
@@ -11,6 +12,21 @@ const orders = (req, res) => {
       res.status(500).json({ message: "Error connecting to the database" });
     };
   }
+};
+
+// see all orders
+const allOrders = async (req, res) => {
+  const orders = await Order.find({})
+    .populate("user")
+    .populate("products")
+    .then((response) => {
+      const allOrders = response;
+      res.status(200).json(allOrders);
+    })
+    .catch((error) => {
+      console.error("Error fetching orders:", error);
+      res.status(500).json({ message: "Error fetching orders" });
+    });
 };
 
 // create order
@@ -27,6 +43,18 @@ const createOrder = async (req, res) => {
     .save()
     .then((response) => {
       const order = response;
+
+      order.products.map(async (product) => {
+        await Post.findOneAndUpdate(
+          { _id: product },
+          {
+            $set: {
+              inStock: false,
+            },
+          }
+        );
+      });
+
       res.status(200).json(order);
     })
     .catch((error) => {
@@ -37,5 +65,6 @@ const createOrder = async (req, res) => {
 
 module.exports = {
   orders,
+  allOrders,
   createOrder,
 };
