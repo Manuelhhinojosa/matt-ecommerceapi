@@ -37,6 +37,7 @@ const createOrder = async (req, res) => {
     user: data.user,
     products: data.products,
     amountPaid: data.amountPaid,
+    status: "Processing",
   });
 
   newOrder
