@@ -34,6 +34,11 @@ const userSchema = new mongoose.Schema(
       default: "customer",
       required: true,
     },
+    isActive: {
+      type: Boolean,
+      required: true,
+      default: true,
+    },
     contactPhoneNumber: {
       type: String,
       required: false,

@@ -24,6 +24,7 @@ const registerUser = async (req, res) => {
     email,
     password,
     role,
+    isActive,
     contactPhoneNumber,
     contactAddress,
     contactUnit,
@@ -52,6 +53,7 @@ const registerUser = async (req, res) => {
     email,
     password,
     role,
+    isActive,
     contactPhoneNumber,
     contactAddress,
     contactUnit,
@@ -187,6 +189,7 @@ const editUser = async (req, res) => {
     { _id: id },
     {
       $set: {
+        isActive: data.isActive,
         contactPhoneNumber: data.contactPhoneNumber,
         contactAddress: data.contactAddress,
         contactUnit: data.contactUnit,
