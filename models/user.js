@@ -102,8 +102,17 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true },
   }
 );
+
+// virtuals for user's orders
+userSchema.virtual("orders", {
+  ref: "Order",
+  localField: "_id",
+  foreignField: "user",
+});
 
 // Password Hash middleware
 userSchema.pre("save", async function (next) {

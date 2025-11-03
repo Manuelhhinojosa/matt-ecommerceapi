@@ -136,6 +136,8 @@ const userLogin = async (req, res) => {
 // get all users
 const getAllUsers = async (req, res) => {
   await User.find({})
+    .populate("orders")
+    .exec()
     .then((response) => {
       const allUsers = response;
       res.status(200).json(allUsers);
