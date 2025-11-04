@@ -104,6 +104,8 @@ const registerUser = async (req, res) => {
 const userLogin = async (req, res) => {
   const { email, password } = req.body;
   await User.findOne({ email })
+    .populate("orders")
+    .exec()
     .then((user) => {
       if (!user)
         return res.status(400).json({ message: "Invalid credentials" });
