@@ -42,30 +42,37 @@ const userSchema = new mongoose.Schema(
     contactPhoneNumber: {
       type: String,
       required: false,
+      default: "",
     },
     contactAddress: {
       type: String,
       required: false,
+      default: "",
     },
     contactUnit: {
       type: String,
       required: false,
+      default: "",
     },
     contactCountry: {
       type: String,
       required: false,
+      default: "",
     },
     contactProvinceOrState: {
       type: String,
       required: false,
+      default: "",
     },
     contactCity: {
       type: String,
       required: false,
+      default: "",
     },
     contactPostalCode: {
       type: String,
       required: false,
+      default: "",
     },
     shippingSameAsContactInfo: {
       type: Boolean,
@@ -74,30 +81,37 @@ const userSchema = new mongoose.Schema(
     shippingPhoneNumber: {
       type: String,
       required: false,
+      default: "",
     },
     shippingAddress: {
       type: String,
       required: false,
+      default: "",
     },
     shippingUnit: {
       type: String,
       required: false,
+      default: "",
     },
     shippingCountry: {
       type: String,
       required: false,
+      default: "",
     },
     shippingProvinceOrState: {
       type: String,
       required: false,
+      default: "",
     },
     shippingCity: {
       type: String,
       required: false,
+      default: "",
     },
     shippingPostalCode: {
       type: String,
       required: false,
+      default: "",
     },
   },
   {

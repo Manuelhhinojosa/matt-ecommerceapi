@@ -14,7 +14,7 @@ router.post("/register", usersController.registerUser);
 router.post("/login", usersController.userLogin);
 router.get("/allusers", protect, admin, usersController.getAllUsers);
 router.get("/:id", protect, usersController.getOneUser);
-router.delete("/deleteprofile", protect, admin, usersController.deleteUser);
+router.delete("/:id", protect, admin, usersController.deleteUser);
 router.put("/editprofile", protect, usersController.editUser);
 router.patch("/inactivateprofile", protect, usersController.inactivateUser);
 router.patch("/reactivateprofile", protect, usersController.reactivateUser);
