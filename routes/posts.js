@@ -14,7 +14,6 @@ const { protect, admin } = require("../middleware/authMiddleware");
 router.get("/", postsController.posts);
 router.get("/allposts", postsController.allPosts);
 router.get("/:id", postsController.onePost);
-// this one:
 router.post(
   "/create",
   protect,
@@ -22,9 +21,7 @@ router.post(
   upload.single("media"),
   postsController.createPost
 );
-// this one:
 router.delete("/:id", protect, admin, postsController.deletePost);
-// this one:
 router.put("/:id", protect, admin, postsController.editPost);
 
 module.exports = router;

@@ -10,7 +10,9 @@ const { protect, admin } = require("../middleware/authMiddleware");
 // orders routes: /orders
 router.get("/", ordersController.orders);
 router.get("/allorders", protect, admin, ordersController.allOrders);
+// this one
 router.post("/create", protect, ordersController.createOrder);
+// this one
 router.patch(
   "/editorderstatus",
   protect,
