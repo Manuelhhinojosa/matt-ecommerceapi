@@ -104,7 +104,10 @@ const registerUser = async (req, res) => {
 const userLogin = async (req, res) => {
   const { email, password } = req.body;
   await User.findOne({ email })
-    .populate("orders")
+    .populate({
+      path: "orders",
+      populate: { path: "products" },
+    })
     .exec()
     .then((user) => {
       if (!user)
@@ -138,7 +141,10 @@ const userLogin = async (req, res) => {
 // get all users
 const getAllUsers = async (req, res) => {
   await User.find({})
-    .populate("orders")
+    .populate({
+      path: "orders",
+      populate: { path: "products" },
+    })
     .exec()
     .then((response) => {
       const allUsers = response;
