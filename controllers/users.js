@@ -160,6 +160,11 @@ const getAllUsers = async (req, res) => {
 const getOneUser = async (req, res) => {
   const { id } = req.params;
   await User.findById(id)
+    .populate({
+      path: "orders",
+      populate: { path: "products" },
+    })
+    .exec()
     .then((response) => {
       const user = response;
       res.status(200).json(user);

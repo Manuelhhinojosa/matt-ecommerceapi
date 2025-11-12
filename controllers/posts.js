@@ -86,13 +86,13 @@ const deletePost = async (req, res) => {
     }
 
     // Safely remove the file from Cloudinary
-    if (postToDelete.media.filename) {
-      try {
-        await cloudinary.uploader.destroy(postToDelete.media.filename);
-      } catch (cloudError) {
-        console.error("Cloudinary deletion failed:", cloudError);
-      }
-    }
+    // if (postToDelete.media.filename) {
+    //   try {
+    //     await cloudinary.uploader.destroy(postToDelete.media.filename);
+    //   } catch (cloudError) {
+    //     console.error("Cloudinary deletion failed:", cloudError);
+    //   }
+    // }
 
     // Delete the post from MongoDB
     const deletedPost = await Post.findByIdAndDelete(id);

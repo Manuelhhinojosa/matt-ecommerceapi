@@ -16,15 +16,34 @@ const orderSchema = new mongoose.Schema(
         required: true,
       },
     ],
-    amountPaid: {
-      type: Number,
-      required: true,
-    },
     status: {
       type: String,
       enum: ["Processing", "Shipped", "Delivered", "Cancelled"],
       default: "Processing",
     },
+    custInfoAtTimeOfPurchase: {
+      name: String,
+      lastname: String,
+      email: String,
+    },
+    contactInfoAtTimeOfPurchase: {
+      type: String,
+      required: true,
+    },
+    shippingInfoAtTimeOfPurchase: {
+      type: String,
+      required: true,
+    },
+    productsInfoAtTimeOfPurchase: [
+      {
+        imgUrl: String,
+        title: String,
+        cost: Number,
+        shortDesc: String,
+        deliveryCost: Number,
+        totalAmountPaid: Number,
+      },
+    ],
   },
   {
     timestamps: true,

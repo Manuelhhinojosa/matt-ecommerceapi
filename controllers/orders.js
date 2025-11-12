@@ -36,8 +36,15 @@ const createOrder = async (req, res) => {
   const newOrder = await new Order({
     user: data.user,
     products: data.products,
-    amountPaid: data.amountPaid,
     status: "Processing",
+    custInfoAtTimeOfPurchase: {
+      name: data.custInfoAtTimeOfPurchase.name,
+      lastname: data.custInfoAtTimeOfPurchase.lastname,
+      email: data.custInfoAtTimeOfPurchase.email,
+    },
+    contactInfoAtTimeOfPurchase: data.contactInfoAtTimeOfPurchase,
+    shippingInfoAtTimeOfPurchase: data.shippingInfoAtTimeOfPurchase,
+    productsInfoAtTimeOfPurchase: data.productsInfoAtTimeOfPurchase,
   });
 
   newOrder
@@ -74,10 +81,26 @@ const updateOrderStatus = async (req, res) => {
       $set: {
         status: data.status,
       },
-    }
+    },
+    { new: true }
   )
-    .then((result) => {
+    .populate("products")
+    .then(async (result) => {
       const editedOrder = result;
+
+      if (data.status === "Cancelled") {
+        const productIds = editedOrder.products.map((p) => p._id);
+
+        await Post.updateMany(
+          { _id: { $in: productIds } },
+          { $set: { inStock: true } }
+        );
+
+        console.log(
+          `Restocked ${productIds.length} products for cancelled order ${id}`
+        );
+      }
+
       console.log("result:", editedOrder);
       res.status(200).json(editedOrder);
     })
