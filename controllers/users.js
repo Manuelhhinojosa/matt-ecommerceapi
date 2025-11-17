@@ -192,43 +192,83 @@ const deleteUser = async (req, res) => {
   }
 };
 
-// edit user
-const editUser = async (req, res) => {
+const editUserPassword = async (req, res) => {
   const data = req.body;
   const id = data._id;
 
   await User.findOneAndUpdate(
-    { _id: id },
     {
-      $set: {
-        isActive: data.isActive,
-        contactPhoneNumber: data.contactPhoneNumber,
-        contactAddress: data.contactAddress,
-        contactUnit: data.contactUnit,
-        contactCountry: data.contactCountry,
-        contactProvinceOrState: data.contactProvinceOrState,
-        contactCity: data.contactCity,
-        contactPostalCode: data.contactPostalCode,
-        shippingSameAsContactInfo: data.shippingSameAsContactInfo,
-        shippingPhoneNumber: data.shippingPhoneNumber,
-        shippingAddress: data.shippingAddress,
-        shippingUnit: data.shippingUnit,
-        shippingCountry: data.shippingCountry,
-        shippingProvinceOrState: data.shippingProvinceOrState,
-        shippingCity: data.shippingCity,
-        shippingPostalCode: data.shippingPostalCode,
-      },
+      _id: id,
+    },
+    {
+      $set: {},
     }
-  )
-    .then((result) => {
-      const editedUser = result;
-      console.log("result:", editedUser);
-      res.status(200).json(editedUser);
-    })
-    .catch((error) => {
-      console.error("Error editing post:", error);
-      res.status(500).json({ message: "Error editing post" });
-    });
+  );
+};
+
+// edit user
+const editContactUser = async (req, res) => {
+  const data = req.body;
+  const { id } = req.params;
+
+  if (data.shippingSameAsContactInfo === true) {
+    await User.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          contactPhoneNumber: data.contactPhoneNumber,
+          contactAddress: data.contactAddress,
+          contactUnit: data.contactUnit,
+          contactCountry: data.contactCountry,
+          contactProvinceOrState: data.contactProvinceOrState,
+          contactCity: data.contactCity,
+          contactPostalCode: data.contactPostalCode,
+          shippingSameAsContactInfo: data.shippingSameAsContactInfo,
+          shippingPhoneNumber: data.shippingPhoneNumber,
+          shippingAddress: data.shippingAddress,
+          shippingUnit: data.shippingUnit,
+          shippingCountry: data.shippingCountry,
+          shippingProvinceOrState: data.shippingProvinceOrState,
+          shippingCity: data.shippingCity,
+          shippingPostalCode: data.shippingPostalCode,
+        },
+      }
+    )
+      .then((result) => {
+        const editedUser = result;
+        console.log("result:", editedUser);
+        res.status(200).json(editedUser);
+      })
+      .catch((error) => {
+        console.error("Error editing post:", error);
+        res.status(500).json({ message: "Error editing post" });
+      });
+  } else if (data.shippingSameAsContactInfo === false) {
+    await User.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          contactPhoneNumber: data.contactPhoneNumber,
+          contactAddress: data.contactAddress,
+          contactUnit: data.contactUnit,
+          contactCountry: data.contactCountry,
+          contactProvinceOrState: data.contactProvinceOrState,
+          contactCity: data.contactCity,
+          contactPostalCode: data.contactPostalCode,
+          shippingSameAsContactInfo: false,
+        },
+      }
+    )
+      .then((result) => {
+        const editedUser = result;
+        console.log("result:", editedUser);
+        res.status(200).json(editedUser);
+      })
+      .catch((error) => {
+        console.error("Error editing post:", error);
+        res.status(500).json({ message: "Error editing post" });
+      });
+  }
 };
 
 // inactivate user
@@ -284,7 +324,8 @@ module.exports = {
   getAllUsers,
   getOneUser,
   deleteUser,
-  editUser,
+  editUserPassword,
+  editContactUser,
   inactivateUser,
   reactivateUser,
 };
