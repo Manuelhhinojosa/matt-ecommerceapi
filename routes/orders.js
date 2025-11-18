@@ -12,7 +12,6 @@ router.get("/", ordersController.orders);
 router.get("/allorders", protect, admin, ordersController.allOrders);
 // this one
 router.post("/create", protect, ordersController.createOrder);
-// this one
 router.patch(
   "/editorderstatus",
   protect,
