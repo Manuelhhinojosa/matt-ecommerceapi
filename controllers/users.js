@@ -193,17 +193,32 @@ const deleteUser = async (req, res) => {
 };
 
 const editUserPassword = async (req, res) => {
-  const data = req.body;
-  const id = data._id;
+  const { oldPassword, newPassword } = req.body;
+  const { id } = req.params;
 
-  await User.findOneAndUpdate(
-    {
-      _id: id,
-    },
-    {
-      $set: {},
-    }
-  );
+  const user = await User.findById(id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const isMatch = await user.matchPassword(oldPassword);
+  if (!isMatch) {
+    return res.status(400).json({ message: "Old password is incorrect" });
+  }
+
+  user.password = newPassword;
+  await user
+    .save()
+    .then((result) => {
+      const editedUser = result;
+      console.log("result:", editedUser);
+      res.status(200).json(editedUser);
+    })
+    .catch((error) => {
+      console.error("Error editing password:", error);
+      res.status(500).json({ message: "Error editing password" });
+    });
 };
 
 // edit user contact info
