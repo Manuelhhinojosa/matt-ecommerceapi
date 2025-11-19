@@ -15,7 +15,6 @@ router.post("/login", usersController.userLogin);
 router.get("/allusers", protect, admin, usersController.getAllUsers);
 router.get("/:id", protect, usersController.getOneUser);
 router.delete("/:id", protect, admin, usersController.deleteUser);
-// this one:
 router.patch("/editpassword/:id", protect, usersController.editUserPassword);
 router.put("/editcontact/:id", protect, usersController.editContactUser);
 router.put("/editshipping/:id", protect, usersController.editShippingtUser);
