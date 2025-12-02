@@ -81,7 +81,7 @@ const registerUser = async (req, res) => {
       jwt.sign(
         payload,
         process.env.JWT_SECRET,
-        { expiresIn: "40h" },
+        { expiresIn: "1h" },
         (err, token) => {
           if (err) throw err;
 
@@ -121,7 +121,7 @@ const userLogin = async (req, res) => {
         jwt.sign(
           payload,
           process.env.JWT_SECRET,
-          { expiresIn: "40h" },
+          { expiresIn: "1h" },
           (err, token) => {
             if (err) throw err;
             res.json({ user, token });
@@ -151,6 +151,12 @@ const getAllUsers = async (req, res) => {
       console.error("Error fetching posts:", error);
       res.status(500).json({ message: "Error fetching posts" });
     });
+};
+
+const getLoggedinUser = async (req, res) => {
+  if (!req.user) res.status(500).json({ message: "User not found" });
+  const user = req.user;
+  res.status(200).json(user);
 };
 
 // get one user
@@ -402,6 +408,7 @@ module.exports = {
   registerUser,
   userLogin,
   getAllUsers,
+  getLoggedinUser,
   getOneUser,
   deleteUser,
   editUserPassword,

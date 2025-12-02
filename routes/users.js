@@ -13,6 +13,7 @@ router.get("/", usersController.users);
 router.post("/register", usersController.registerUser);
 router.post("/login", usersController.userLogin);
 router.get("/allusers", protect, admin, usersController.getAllUsers);
+router.get("/me", protect, usersController.getLoggedinUser);
 router.get("/:id", protect, usersController.getOneUser);
 router.delete("/:id", protect, admin, usersController.deleteUser);
 router.patch("/editpassword/:id", protect, usersController.editUserPassword);
