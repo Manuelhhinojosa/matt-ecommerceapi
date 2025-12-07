@@ -6,6 +6,12 @@ const jwt = require("jsonwebtoken");
 // user model
 const User = require("../models/user");
 
+// functions
+// functions
+// functions
+
+// protect routes middleware with JWT Token
+// protect routes middleware with JWT Token
 // protect routes middleware with JWT Token
 const protect = async (req, res, next) => {
   let token;
@@ -29,8 +35,9 @@ const protect = async (req, res, next) => {
   }
 };
 
-//
-// // protect routes middleware (make sure only admin can create products)
+// protect routes middleware (make sure only admin can create products)
+// protect routes middleware (make sure only admin can create products)
+// protect routes middleware (make sure only admin can create products)
 const admin = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     next();
@@ -38,4 +45,5 @@ const admin = (req, res, next) => {
     res.status(403).json({ message: "Not authorized as an admin" });
   }
 };
+
 module.exports = { protect, admin };

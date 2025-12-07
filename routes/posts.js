@@ -1,7 +1,12 @@
+// express
 var express = require("express");
 var router = express.Router();
 
-// controllers (functions)
+// functions
+// functions
+// functions
+
+// controllers
 const postsController = require("../controllers/posts");
 
 // middleware
@@ -10,6 +15,8 @@ const upload = require("../middleware/multer");
 // for protected routes
 const { protect, admin } = require("../middleware/authMiddleware");
 
+// posts routes : /posts
+// posts routes : /posts
 // posts routes : /posts
 router.get("/", postsController.posts);
 router.get("/allposts", postsController.allPosts);

@@ -1,15 +1,19 @@
+// express generator
 var createError = require("http-errors");
-// express
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var methodOverride = require("method-override");
+
 // env vars
 require("dotenv").config();
+
 // Database connection
 const mongoose = require("mongoose");
-require("./config/database");
+const connectDB = require("./config/database");
+connectDB();
+
 // cors for communication with front-end
 const cors = require("cors");
 
@@ -19,14 +23,14 @@ var postsRouter = require("./routes/posts");
 var usersRouter = require("./routes/users");
 var ordersRouter = require("./routes/orders");
 
+// app
 var app = express();
 
+// app config
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
 app.use(cors());
-
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
