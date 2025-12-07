@@ -1,6 +1,9 @@
 // dependencies
+// mongoose
 const mongoose = require("mongoose");
 
+// Order model
+// Order model
 // Order model
 const orderSchema = new mongoose.Schema(
   {

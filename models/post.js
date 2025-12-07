@@ -1,5 +1,10 @@
+// dependencies
+// mongoose
 const mongoose = require("mongoose");
 
+// post schema
+// post schema
+// post schema
 const postSchema = new mongoose.Schema(
   {
     reference: {

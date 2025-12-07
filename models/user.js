@@ -1,8 +1,13 @@
 // dependencies
+// mongoose
 const mongoose = require("mongoose");
+
+// middleware
 // password recurity
 const bcrypt = require("bcryptjs");
 
+// User model
+// User model
 // User model
 const userSchema = new mongoose.Schema(
   {
