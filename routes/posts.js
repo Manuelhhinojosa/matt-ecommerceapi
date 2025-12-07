@@ -2,22 +2,19 @@
 var express = require("express");
 var router = express.Router();
 
-// functions
-// functions
-// functions
-
-// controllers
+// controllers (functions)
 const postsController = require("../controllers/posts");
 
 // middleware
 // cloudinary
 const upload = require("../middleware/multer");
-// for protected routes
+// for protecting routes
 const { protect, admin } = require("../middleware/authMiddleware");
 
 // posts routes : /posts
 // posts routes : /posts
 // posts routes : /posts
+
 router.get("/", postsController.posts);
 router.get("/allposts", postsController.allPosts);
 router.get("/:id", postsController.onePost);
@@ -29,6 +26,12 @@ router.post(
   postsController.createPost
 );
 router.delete("/:id", protect, admin, postsController.deletePost);
-router.put("/:id", protect, admin, postsController.editPost);
+router.put(
+  "/:id",
+  protect,
+  admin,
+  upload.single("media"),
+  postsController.editPost
+);
 
 module.exports = router;

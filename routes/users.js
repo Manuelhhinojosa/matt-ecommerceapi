@@ -9,6 +9,9 @@ const usersController = require("../controllers/users");
 const { protect, admin } = require("../middleware/authMiddleware");
 
 // Users routes: /users
+// Users routes: /users
+// Users routes: /users
+
 router.get("/", usersController.users);
 router.post("/register", usersController.registerUser);
 router.post("/login", usersController.userLogin);

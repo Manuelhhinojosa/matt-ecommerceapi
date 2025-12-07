@@ -1,3 +1,4 @@
+// dependencies
 var express = require("express");
 var router = express.Router();
 
@@ -8,6 +9,9 @@ const ordersController = require("../controllers/orders");
 const { protect, admin } = require("../middleware/authMiddleware");
 
 // orders routes: /orders
+// orders routes: /orders
+// orders routes: /orders
+
 router.get("/", ordersController.orders);
 router.get("/allorders", protect, admin, ordersController.allOrders);
 // this one
