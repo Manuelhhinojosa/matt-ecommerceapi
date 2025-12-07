@@ -2,18 +2,28 @@
 const Order = require("../models/order");
 const Post = require("../models/post");
 
+// error handlng
+const errorResponse = require("../utils/errorResponse");
+
+// functions
+// functions
+// functions
+
+// welcome
+// welcome
 // welcome
 const orders = (req, res) => {
   try {
     res.send("Matt Marotti's E-commerce API (Back End) orders routes");
   } catch {
     (error) => {
-      console.log("Error connecting to the database:", error);
-      res.status(500).json({ message: "Error connecting to the database" });
+      errorResponse(res, error, "Error connecting to the database");
     };
   }
 };
 
+// see all orders
+// see all orders
 // see all orders
 const allOrders = async (req, res) => {
   const orders = await Order.find({})
@@ -24,11 +34,12 @@ const allOrders = async (req, res) => {
       res.status(200).json(allOrders);
     })
     .catch((error) => {
-      console.error("Error fetching orders:", error);
-      res.status(500).json({ message: "Error fetching orders" });
+      errorResponse(res, error, "Error fetching orders");
     });
 };
 
+// create order
+// create order
 // create order
 const createOrder = async (req, res) => {
   const data = req.body;
@@ -66,11 +77,13 @@ const createOrder = async (req, res) => {
       res.status(200).json(order);
     })
     .catch((error) => {
-      console.error("Error creating order:", error);
-      res.status(500).json({ message: "Error creating order" });
+      errorResponse(res, error, "Error creating order");
     });
 };
 
+// update order status
+// update order status
+// update order status
 const updateOrderStatus = async (req, res) => {
   const data = req.body;
   const id = data._id;
@@ -105,8 +118,7 @@ const updateOrderStatus = async (req, res) => {
       res.status(200).json(editedOrder);
     })
     .catch((error) => {
-      console.error("Error editing order status:", error);
-      res.status(500).json({ message: "Error editing order status" });
+      errorResponse(res, error, "Error updating order status");
     });
 };
 

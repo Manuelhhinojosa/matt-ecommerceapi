@@ -4,18 +4,28 @@ const User = require("../models/user");
 // dependencies
 const jwt = require("jsonwebtoken");
 
+// error handlng
+const errorResponse = require("../utils/errorResponse");
+
+// functions
+// functions
+// functions
+
+// welcome
+// welcome
 // welcome
 const users = async (req, res) => {
   try {
     res.send("Matt Marotti's E-commerce API (Back End) users routes");
   } catch {
     (error) => {
-      console.log("Error connecting to the database:", error);
-      res.status(500).json({ message: "Error connecting to the database" });
+      errorResponse(res, error, "Error connecting to the database");
     };
   }
 };
 
+// register user
+// register user
 // register user
 const registerUser = async (req, res) => {
   const {
@@ -91,12 +101,12 @@ const registerUser = async (req, res) => {
       );
     })
     .catch((error) => {
-      console.error(error);
-      res.status(500).send("Server Error");
+      errorResponse(res, error, "Error creating user");
     });
 };
 
-//
+// user login
+// user login
 // user login
 const userLogin = async (req, res) => {
   const { email, password } = req.body;
@@ -130,11 +140,12 @@ const userLogin = async (req, res) => {
       });
     })
     .catch((error) => {
-      console.error(error);
-      res.status(500).send("Server Error");
+      errorResponse(res, error, "Error logging in user");
     });
 };
 
+// get all users
+// get all users
 // get all users
 const getAllUsers = async (req, res) => {
   await User.find({})
@@ -148,17 +159,22 @@ const getAllUsers = async (req, res) => {
       res.status(200).json(allUsers);
     })
     .catch((error) => {
-      console.error("Error fetching posts:", error);
-      res.status(500).json({ message: "Error fetching posts" });
+      errorResponse(res, error, "Error fetching all users");
     });
 };
 
+// get logged in user
+// get logged in user
+// get logged in user
 const getLoggedinUser = async (req, res) => {
-  if (!req.user) res.status(500).json({ message: "User not found" });
+  // here
+  if (!req.user) res.status(500).json({ message: "Uset not found" });
   const user = req.user;
   res.status(200).json(user);
 };
 
+// get one user
+// get one user
 // get one user
 const getOneUser = async (req, res) => {
   const { id } = req.params;
@@ -173,11 +189,12 @@ const getOneUser = async (req, res) => {
       res.status(200).json(user);
     })
     .catch((error) => {
-      console.error("Error fetching post:", error);
-      res.status(500).json({ message: "Error fetching post" });
+      errorResponse(res, error, "Error fetching user");
     });
 };
 
+// delete one User
+// delete one User
 // delete one User
 const deleteUser = async (req, res) => {
   try {
@@ -193,11 +210,13 @@ const deleteUser = async (req, res) => {
     console.log(deletedUser);
     res.status(200).json(deletedUser);
   } catch (error) {
-    console.error("Error deleting post:", error);
-    res.status(500).json({ message: "Error deleting post" });
+    errorResponse(res, error, "Error deliting user");
   }
 };
 
+// edit user password
+// edit user password
+// edit user password
 const editUserPassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const { id } = req.params;
@@ -222,11 +241,12 @@ const editUserPassword = async (req, res) => {
       res.status(200).json(editedUser);
     })
     .catch((error) => {
-      console.error("Error editing password:", error);
-      res.status(500).json({ message: "Error editing password" });
+      errorResponse(res, error, "Error editing user's password");
     });
 };
 
+// edit user contact info
+// edit user contact info
 // edit user contact info
 const editContactUser = async (req, res) => {
   const data = req.body;
@@ -261,8 +281,7 @@ const editContactUser = async (req, res) => {
         res.status(200).json(editedUser);
       })
       .catch((error) => {
-        console.error("Error editing post:", error);
-        res.status(500).json({ message: "Error editing post" });
+        errorResponse(res, error, "Error editing contact user's info");
       });
   } else if (data.shippingSameAsContactInfo === false) {
     await User.findOneAndUpdate(
@@ -286,12 +305,13 @@ const editContactUser = async (req, res) => {
         res.status(200).json(editedUser);
       })
       .catch((error) => {
-        console.error("Error editing post:", error);
-        res.status(500).json({ message: "Error editing post" });
+        errorResponse(res, error, "Error editing user's contact info");
       });
   }
 };
 
+// edit user shipping info
+// edit user shipping info
 // edit user shipping info
 const editShippingtUser = async (req, res) => {
   const data = req.body;
@@ -351,12 +371,13 @@ const editShippingtUser = async (req, res) => {
         res.status(200).json(editedUser);
       })
       .catch((error) => {
-        console.error("Error editing post:", error);
-        res.status(500).json({ message: "Error editing post" });
+        errorResponse(res, error, "Error editing user's shipping info");
       });
   }
 };
 
+// inactivate user
+// inactivate user
 // inactivate user
 const inactivateUser = async (req, res) => {
   const data = req.body;
@@ -375,11 +396,12 @@ const inactivateUser = async (req, res) => {
       res.status(200).json(inactivatedUser);
     })
     .catch((error) => {
-      console.error("Error inactivating user:", error);
-      res.status(500).json({ message: "Error inactivating user" });
+      errorResponse(res, error, "Error inactivating user");
     });
 };
 
+// reactivate user
+// reactivate user
 // reactivate user
 const reactivateUser = async (req, res) => {
   const data = req.body;
@@ -398,8 +420,7 @@ const reactivateUser = async (req, res) => {
       res.status(200).json(reactivatedUser);
     })
     .catch((error) => {
-      console.error("Error reactivating user:", error);
-      res.status(500).json({ message: "Error reactivating user" });
+      errorResponse(res, error, "Error reactivating user");
     });
 };
 

@@ -1,19 +1,29 @@
 // models
+// psot model
 const Post = require("../models/post");
-// Cloudinary
-const cloudinary = require("cloudinary").v2;
 
+// error handlng
+const errorResponse = require("../utils/errorResponse");
+
+// functions
+// functions
+// functions
+
+// welcome
+// welcome
+// welcome
 const posts = async (req, res) => {
   try {
     res.send("Matt Marotti's E-commerce API (Back End) posts routes");
   } catch {
     (error) => {
-      console.log("Error connecting to the database:", error);
-      res.status(500).json({ message: "Error connecting to the database" });
+      errorResponse(res, error, "Error connecting to the database");
     };
   }
 };
 
+// see all posts
+// see all posts
 // see all posts
 const allPosts = async (req, res) => {
   await Post.find({})
@@ -22,11 +32,12 @@ const allPosts = async (req, res) => {
       res.status(200).json(allPosts);
     })
     .catch((error) => {
-      console.error("Error fetching posts:", error);
-      res.status(500).json({ message: "Error fetching posts" });
+      errorResponse(res, error, "Error fetching posts");
     });
 };
 
+// see one post
+// see one post
 // see one post
 const onePost = async (req, res) => {
   const { id } = req.params;
@@ -36,11 +47,12 @@ const onePost = async (req, res) => {
       res.status(200).json(post);
     })
     .catch((error) => {
-      console.error("Error fetching post:", error);
-      res.status(500).json({ message: "Error fetching post" });
+      errorResponse(res, error, "Error fetching post");
     });
 };
 
+// Create post (new product)
+// Create post (new product)
 // Create post (new product)
 const createPost = async (req, res) => {
   const data = req.body;
@@ -70,11 +82,12 @@ const createPost = async (req, res) => {
       res.status(200).json(post);
     })
     .catch((error) => {
-      console.error("Error creating post:", error);
-      res.status(500).json({ message: "Error creating post" });
+      errorResponse(res, error, "Error creating post");
     });
 };
 
+// delete one post by ID
+// delete one post by ID
 // delete one post by ID
 const deletePost = async (req, res) => {
   try {
@@ -90,11 +103,12 @@ const deletePost = async (req, res) => {
     console.log(deletedPost);
     res.status(200).json(deletedPost);
   } catch (error) {
-    console.error("Error deleting post:", error);
-    res.status(500).json({ message: "Error deleting post" });
+    errorResponse(res, error, "Error deleting post");
   }
 };
 
+// edit post from mongoDB
+// edit post from mongoDB
 // edit post from mongoDB
 const editPost = async (req, res) => {
   const data = req.body;
@@ -120,8 +134,7 @@ const editPost = async (req, res) => {
       res.status(200).json(editedPost);
     })
     .catch((error) => {
-      console.error("Error editing post:", error);
-      res.status(500).json({ message: "Error editing post" });
+      errorResponse(res, error, "Error editing post");
     });
 };
 
