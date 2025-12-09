@@ -95,7 +95,6 @@ const registerUser = async (req, res) => {
         (err, token) => {
           if (err) throw err;
 
-          // response
           res.status(201).json({ user, token });
         }
       );
@@ -110,34 +109,40 @@ const registerUser = async (req, res) => {
 // user login
 const userLogin = async (req, res) => {
   const { email, password } = req.body;
+
   await User.findOne({ email })
+    .select("+password")
     .populate({
       path: "orders",
       populate: { path: "products" },
     })
     .exec()
-    .then((user) => {
-      if (!user)
+    .then(async (user) => {
+      if (!user) {
+        return res.status(400).json({ message: "User not registered yet" });
+      }
+
+      // Compare passwords
+      const isMatch = await user.matchPassword(password);
+      if (!isMatch) {
         return res.status(400).json({ message: "Invalid credentials" });
+      }
 
-      return user.matchPassword(password).then((isMatch) => {
-        if (!isMatch)
-          return res.status(400).json({ message: "Invalid credentials" });
+      user.password = undefined;
 
-        // JWT payload
-        const payload = { user: { id: user._id, role: user.role } };
+      // JWT payload
+      const payload = { user: { id: user._id, role: user.role } };
 
-        // Sign and return the token with user data
-        jwt.sign(
-          payload,
-          process.env.JWT_SECRET,
-          { expiresIn: "1h" },
-          (err, token) => {
-            if (err) throw err;
-            res.json({ user, token });
-          }
-        );
-      });
+      // Create token
+      jwt.sign(
+        payload,
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" },
+        (err, token) => {
+          if (err) throw err;
+          return res.json({ user, token });
+        }
+      );
     })
     .catch((error) => {
       errorResponse(res, error, "Error logging in user");
@@ -221,7 +226,7 @@ const editUserPassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
   const { id } = req.params;
 
-  const user = await User.findById(id);
+  const user = await User.findById(id).select("+password");
 
   if (!user) {
     return res.status(404).json({ message: "User not found" });

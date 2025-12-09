@@ -13,25 +13,27 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, "Name is required"],
       trim: true,
     },
     lastname: {
       type: String,
-      required: true,
+      required: [true, "Last name is required"],
       trim: true,
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "Email is required"],
       unique: true,
       trim: true,
-      match: [/.+\@.+\..+/, "Please enter a valid email address."],
+      lowercase: true,
+      match: [/.+\@.+\..+/, "Please enter a valid email"],
     },
     password: {
       type: String,
       required: true,
-      minLength: 6,
+      minlength: [6, "Password must be at least 6 characters"],
+      select: false,
     },
     role: {
       type: String,
@@ -46,83 +48,75 @@ const userSchema = new mongoose.Schema(
     },
     contactPhoneNumber: {
       type: String,
-      required: false,
       default: "",
     },
     contactAddress: {
       type: String,
-      required: false,
       default: "",
     },
     contactUnit: {
       type: String,
-      required: false,
       default: "",
     },
     contactCountry: {
       type: String,
-      required: false,
       default: "",
     },
     contactProvinceOrState: {
       type: String,
-      required: false,
       default: "",
     },
     contactCity: {
       type: String,
-      required: false,
       default: "",
     },
     contactPostalCode: {
       type: String,
-      required: false,
       default: "",
     },
     shippingSameAsContactInfo: {
       type: Boolean,
       required: false,
+      default: false,
     },
     shippingPhoneNumber: {
       type: String,
-      required: false,
       default: "",
     },
     shippingAddress: {
       type: String,
-      required: false,
       default: "",
     },
     shippingUnit: {
       type: String,
-      required: false,
       default: "",
     },
     shippingCountry: {
       type: String,
-      required: false,
       default: "",
     },
     shippingProvinceOrState: {
       type: String,
-      required: false,
       default: "",
     },
     shippingCity: {
       type: String,
-      required: false,
       default: "",
     },
     shippingPostalCode: {
       type: String,
-      required: false,
       default: "",
     },
   },
   {
     timestamps: true,
     toObject: { virtuals: true },
-    toJSON: { virtuals: true },
+    toJSON: {
+      virtuals: true,
+      transform: (_, ret) => {
+        delete ret.password;
+      },
+    },
   }
 );
 
