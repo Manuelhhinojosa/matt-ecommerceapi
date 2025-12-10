@@ -21,7 +21,7 @@ router.get("/:id", protect, usersController.getOneUser);
 router.delete("/:id", protect, admin, usersController.deleteUser);
 router.patch("/editpassword/:id", protect, usersController.editUserPassword);
 router.put("/editcontact/:id", protect, usersController.editContactUser);
-router.put("/editshipping/:id", protect, usersController.editShippingtUser);
+router.put("/editshipping/:id", protect, usersController.editShippingUser);
 router.patch("/inactivateprofile", protect, usersController.inactivateUser);
 router.patch("/reactivateprofile", protect, usersController.reactivateUser);
 
