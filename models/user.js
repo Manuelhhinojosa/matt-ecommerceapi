@@ -6,9 +6,9 @@ const mongoose = require("mongoose");
 // password recurity
 const bcrypt = require("bcryptjs");
 
-// User model
-// User model
-// User model
+// User schema
+// User schema
+// User schema
 const userSchema = new mongoose.Schema(
   {
     name: {
