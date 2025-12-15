@@ -16,7 +16,9 @@ const errorResponse = require("../utils/errorResponse");
 // welcome
 const users = async (req, res) => {
   try {
-    res.send("Matt Marotti's E-commerce API (Back End) users routes");
+    return res
+      .status(200)
+      .send("Matt Marotti's E-commerce API (Back End) users routes");
   } catch (error) {
     return errorResponse(res, error, "Error connecting to the database");
   }
