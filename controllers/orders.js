@@ -183,7 +183,6 @@ const createCheckoutSession = async (req, res) => {
     });
 
     res.status(200).json({ url: session.url });
-    // res.status(200).json({ sessionId: session.id });
   } catch (error) {
     console.error("Stripe checkout error:", error);
     res.status(500).json({ message: "Error creating checkout session" });
@@ -246,8 +245,8 @@ const stripeWebhook = async (req, res) => {
           lastname: user.lastname,
           email: user.email,
         },
-        contactInfoAtTimeOfPurchase: user.contactAddress,
-        shippingInfoAtTimeOfPurchase: user.shippingAddress,
+        contactInfoAtTimeOfPurchase: `Phone: ${user.contactPhoneNumber}. Address: ${user.contactAddress}, Unit: ${user.contactUnit}. Country: ${user.contactCountry}. Province or state: ${user.contactProvinceOrState}, City: ${user.contactCity}. Postal code: ${user.contactPostalCode}`,
+        shippingInfoAtTimeOfPurchase: `Phone: ${user.shippingPhoneNumber}. Address: ${user.shippingAddress}, Unit: ${user.shippingUnit}. Country: ${user.shippingCountry}. Province or state: ${user.shippingProvinceOrState}, City: ${user.shippingCity}. Postal code: ${user.shippingPostalCode}`,
         productsInfoAtTimeOfPurchase,
       });
 
