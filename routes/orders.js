@@ -14,12 +14,16 @@ const { protect, admin } = require("../middleware/authMiddleware");
 
 router.get("/", ordersController.orders);
 router.get("/allorders", protect, admin, ordersController.allOrders);
-// this one
-router.post("/create", protect, ordersController.createOrder);
 router.patch(
   "/editorderstatus",
   protect,
   admin,
   ordersController.updateOrderStatus
 );
+router.post(
+  "/create-checkout-session",
+  protect,
+  ordersController.createCheckoutSession
+);
+
 module.exports = router;
