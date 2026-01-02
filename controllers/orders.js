@@ -208,7 +208,7 @@ const stripeWebhook = async (req, res) => {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // ✅ PAYMENT SUCCESS
+  // PAYMENT SUCCESS
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
 
@@ -240,6 +240,7 @@ const stripeWebhook = async (req, res) => {
         user: user._id,
         products: productIds,
         status: "Processing",
+        stripeSessionId: session.id,
         custInfoAtTimeOfPurchase: {
           name: user.name,
           lastname: user.lastname,
@@ -266,10 +267,30 @@ const stripeWebhook = async (req, res) => {
   res.status(200).json({ received: true });
 };
 
+// get order by session ID
+const getOrderBySession = async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+
+    const order = await Order.findOne({ stripeSessionId: sessionId })
+      .populate("products")
+      .populate("user");
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found yet" });
+    }
+
+    res.status(200).json(order);
+  } catch (error) {
+    return errorResponse(res, error, "Error fetching order");
+  }
+};
+
 module.exports = {
   orders,
   allOrders,
   updateOrderStatus,
   createCheckoutSession,
   stripeWebhook,
+  getOrderBySession,
 };

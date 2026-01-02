@@ -24,6 +24,11 @@ const orderSchema = new mongoose.Schema(
       enum: ["Processing", "Shipped", "Delivered", "Cancelled"],
       default: "Processing",
     },
+    stripeSessionId: {
+      type: String,
+      required: true,
+      index: true,
+    },
     custInfoAtTimeOfPurchase: {
       name: { type: String, required: true },
       lastname: { type: String, required: true },

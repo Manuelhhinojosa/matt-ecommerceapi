@@ -25,5 +25,10 @@ router.post(
   protect,
   ordersController.createCheckoutSession
 );
+router.get(
+  "/by-session/:sessionId",
+  protect,
+  ordersController.getOrderBySession
+);
 
 module.exports = router;
