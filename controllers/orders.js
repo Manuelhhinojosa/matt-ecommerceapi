@@ -7,6 +7,9 @@ const User = require("../models/user");
 // stripe
 const stripe = require("../config/stripe");
 
+// resend
+const orderConfirmationEmail = require("../utils/orderConfirmation");
+
 // error handlng
 const errorResponse = require("../utils/errorResponse");
 
@@ -257,7 +260,9 @@ const stripeWebhook = async (req, res) => {
         { $set: { inStock: false } }
       );
 
-      console.log("Order created:", order._id);
+      // send confirmation email to client
+      await orderConfirmationEmail(order, user);
+      console.log("Order created and confirmation email sent:", order._id);
     } catch (error) {
       console.error("Order creation failed:", error);
       return res.status(500).json({ message: "Order processing failed" });
