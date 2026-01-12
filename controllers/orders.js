@@ -10,6 +10,7 @@ const stripe = require("../config/stripe");
 // resend
 const orderConfirmationEmail = require("../utils/orderConfirmation");
 const orderConfirmationEmailAdmin = require("../utils/orderConfirmationAdmin");
+const orderStatusUpdate = require("../utils/orderStatusUpdate");
 
 // error handlng
 const errorResponse = require("../utils/errorResponse");
@@ -65,8 +66,10 @@ const allOrders = async (req, res) => {
 // update order status
 const updateOrderStatus = async (req, res) => {
   try {
+    // get state
     const { _id: id, status } = req.body;
 
+    // edit order
     const editedOrder = await Order.findByIdAndUpdate(
       id,
       { $set: { status } },
@@ -77,6 +80,7 @@ const updateOrderStatus = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
+    // if order status is cancelled re-stock products
     if (status === "Cancelled") {
       const productIds = editedOrder.products.map((p) => p._id);
 
@@ -89,6 +93,10 @@ const updateOrderStatus = async (req, res) => {
         `Restocked ${productIds.length} products for cancelled order ${id}`
       );
     }
+
+    // send update email to user
+    const user = await User.findById(editedOrder.user);
+    await orderStatusUpdate(editedOrder, user);
 
     return res.status(200).json(editedOrder);
   } catch (error) {
