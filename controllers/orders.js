@@ -9,6 +9,7 @@ const stripe = require("../config/stripe");
 
 // resend
 const orderConfirmationEmail = require("../utils/orderConfirmation");
+const orderConfirmationEmailAdmin = require("../utils/orderConfirmationAdmin");
 
 // error handlng
 const errorResponse = require("../utils/errorResponse");
@@ -262,6 +263,9 @@ const stripeWebhook = async (req, res) => {
 
       // send confirmation email to client
       await orderConfirmationEmail(order, user);
+      // send confirmation email to admin
+      await orderConfirmationEmailAdmin(order, user);
+
       console.log("Order created and confirmation email sent:", order._id);
     } catch (error) {
       console.error("Order creation failed:", error);

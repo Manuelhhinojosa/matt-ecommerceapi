@@ -2,6 +2,7 @@ const sendEmail = require("./sendEmail");
 
 const orderConfirmationEmail = async (order, user) => {
   return sendEmail({
+    from: process.env.EMAIL_FROM,
     to: user.email,
     subject: `Order Confirmation #${order._id}`,
     html: `
@@ -10,6 +11,11 @@ const orderConfirmationEmail = async (order, user) => {
 
       <p><strong>Order ID:</strong> ${order._id}</p>
       <p><strong>Status:</strong> ${order.status}</p>
+      <p><strong>Your order will be shippied to:</strong> ${
+        order.shippingInfoAtTimeOfPurchase
+      }</p>
+
+        <p>Please feel free to contact me at matt.marotti.shop@gmail.com if yoou have any questions or concerns about your order</p>
 
       <h3>Items</h3>
       <ul>
