@@ -29,7 +29,7 @@ const calculateTaxRate = (country) => {
   if (country.toLowerCase() === "canada") {
     return 0.13;
   } else {
-    return 0.16;
+    return 0.13;
   }
 };
 
