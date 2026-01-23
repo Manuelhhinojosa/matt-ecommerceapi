@@ -2,11 +2,15 @@ const sendEmail = require("./sendEmail");
 
 const orderStatusUpdate = async (order, user) => {
   const isShipped = order.status === "Shipped";
+  const isDelivered = order.status === "Delivered";
+  const isCancelled = order.status === "Cancelled";
 
-  // Temporary tracking placeholder (you'll replace this once admin submits it)
+  // Temporary placeholders (you’ll replace these once admin submits them)
   const trackingNumber =
     order.trackingNumber ||
     "TRK-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+
+  const deliveryCompany = order.deliveryCompany || "International Shipping Co.";
 
   return sendEmail({
     from: process.env.EMAIL_FROM,
@@ -29,7 +33,7 @@ const orderStatusUpdate = async (order, user) => {
                   Order Update 📦
                 </h1>
                 <p style="margin:10px 0 0;color:#e0e7ff;font-size:14px;">
-                  Hi ${user.name}, we have an update on your order
+                  Hi ${user.name}, here’s an update on your order
                 </p>
               </td>
             </tr>
@@ -39,7 +43,7 @@ const orderStatusUpdate = async (order, user) => {
               <td style="padding:30px;color:#1f2937;">
 
                 <p style="font-size:15px;line-height:1.6;margin-top:0;">
-                  Your order status has been updated. Here’s the latest information:
+                  Your order status has changed. Please see the details below.
                 </p>
 
                 <!-- Status -->
@@ -50,7 +54,8 @@ const orderStatusUpdate = async (order, user) => {
                       <strong>Current status:</strong> ${order.status}
                       ${
                         isShipped
-                          ? `<br /><strong>Tracking number:</strong> ${trackingNumber}`
+                          ? `<br /><strong>Delivery company:</strong> ${deliveryCompany}
+                             <br /><strong>Tracking number:</strong> ${trackingNumber}`
                           : ""
                       }
                     </td>
@@ -60,16 +65,36 @@ const orderStatusUpdate = async (order, user) => {
                 ${
                   isShipped
                     ? `
-                    <p style="font-size:14px;line-height:1.6;">
-                      🎉 Great news! Your order is on its way.
-                      Once the carrier picks it up, you’ll be able to track its journey using the tracking number above.
-                    </p>
-                  `
+                      <p style="font-size:14px;line-height:1.6;">
+                        🎉 Good news! Your order has shipped and is on its way.
+                        You can track your delivery using the tracking number above through
+                        <strong>${deliveryCompany}</strong>.
+                      </p>
+                    `
+                    : isDelivered
+                    ? `
+                      <p style="font-size:14px;line-height:1.6;">
+                        ✅ According to <strong>${deliveryCompany}</strong>, your order has been
+                        successfully delivered.
+                        <br /><br />
+                        If you haven’t received your items yet, we recommend contacting the
+                        delivery company directly with your tracking details.
+                        Of course, you’re also welcome to reply to this email if you need help.
+                      </p>
+                    `
+                    : isCancelled
+                    ? `
+                      <p style="font-size:14px;line-height:1.6;">
+                        ⚠️ Your order has been cancelled.
+                        <br /><br />
+                      Pleae replay to this email for further arrangaments.
+                      </p>
+                    `
                     : `
-                    <p style="font-size:14px;line-height:1.6;">
-                      We’ll keep you updated as your order moves through the next steps.
-                    </p>
-                  `
+                      <p style="font-size:14px;line-height:1.6;">
+                        We’ll keep you updated as your order continues moving forward.
+                      </p>
+                    `
                 }
 
                 <!-- Items -->
@@ -123,12 +148,12 @@ const orderStatusUpdate = async (order, user) => {
 
                 <!-- Help -->
                 <p style="font-size:14px;line-height:1.6;margin-top:30px;">
-                  If you have any questions or need help with your order,
-                  feel free to reply to this email anytime — we’re happy to help.
+                  Need help or have a question?
+                  Just reply to this email — we’re always happy to assist you.
                 </p>
 
                 <p style="font-size:15px;margin-bottom:0;">
-                  Thanks again for shopping with us 💙
+                  Thank you for shopping with us 💙
                 </p>
 
               </td>
